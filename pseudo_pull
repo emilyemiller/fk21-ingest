@@ -1,1 +1,8 @@
+#find and pull Falkor data from google cloud to /scratch/mgds
 
+#Submersible Sealog/SealogLaunch event metadata
+
+cruise_id = FK210409
+dive_id = []
+store the dive_id so we can search for the paths to the data
+dive_id.append(gsutil ls gs://2021fkdata/FK210409/Subastian)
