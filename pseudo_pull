@@ -2,7 +2,16 @@
 
 #Submersible Sealog/SealogLaunch event metadata
 
-cruise_id = FK210409
+cruise_id = FK210409 # will want to be able to supply this as a flag
 dive_id = []
-store the dive_id so we can search for the paths to the data
-dive_id.append(gsutil ls gs://2021fkdata/FK210409/Subastian)
+#store the dive_id so we can search for the paths to the data
+for i in range(len(os.listdir())):
+    dive = os.listdir()[i].split('_')
+    dive_ids.append(dive[1])
+    search for 'gs://2021fkdata/'+cruise_id+'/Subastian/'+cruise_id+'_'+dive_id[i]+'/Sealog/'+dive_id[i]+'_loweringRecord.json'
+      if it exists print('dive lowering records exist in /path..."
+      pull files to '/scratch/mgds/work/Falkor/'+cruise_id+'/Subastian/'+cruise_id+'_'+dive_id[i]+'/Sealog'
+      print(dive_id[i]+'_loweringRecord.json copied to /scratch/mgds'
+      else print('dive lowering records do not exist in /path...')
+     done
+done
