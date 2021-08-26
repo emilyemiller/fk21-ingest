@@ -3,6 +3,7 @@
 Spyder Editor
 
 This is a temporary script file.
+Replicated small test case locally.
 """
 
 import os
