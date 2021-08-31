@@ -1,0 +1,34 @@
+cruise_id = FK210409
+vessel_id = Falkor
+dive_id=[]
+entry_id = cruise id in MGDS database
+
+## Pull the .json files for each dive directory from Google Cloud and place into scratch directory
+FOR dive_id[i] IF i exists
+	THEN pull gs://2021fkdata/{cruise_id}/Subastian/{cruise_id}_dive_id[i]/Sealog/dive_id[i]_loweringRecord.json to /scratch/mgds/work/Falkor/{cruise_id}/Subastian/{cruise_id}_dive_id[i]/Sealog
+		PRINT 'gs://2021fkdata/{cruise_id}/Subastian/{cruise_id}_dive_id[i]/Sealog/dive_id[i]_loweringRecord.json copied to /scratch/mgds/work/Falkor/{cruise_id}/Subastian/{cruise_id}_dive_id[i]/Sealog
+	ELSE 
+		PRINT 'Path does not exist'
+DONE
+
+#create Sealog filelist for preingestion
+FOR dive_id[i] IF i exists
+	THEN print filename for each dive_id[i] IN /scratch/mgds/work/Falkor/{cruise_id}/Subastian/{cruise_id}_dive_id[i]/Sealog and SAVE as cruise_id.dives
+DONE
+
+#Preingest filelist - will probably break up the preingest scripts at some point
+READ cruise_id.dives to RUN preingestSealogLaunch.php 
+
+#create event_set_uid from MGDS database
+
+GET (MAX(event_set_uid) + 1) AND ASSIGN to {entry_id} 
+
+
+#compress the files and move *.gz to /data/mgds..
+FOR dive_id[i] 
+	GZIP /scratch/mgds/work/Falkor/{cruise_id}/Subastian/{cruise_id}_dive_id[i]/Sealog/dive_id[i]_loweringRecord.json
+	MOVE /scratch/mgds/work/Falkor/{cruise_id}/Subastian/{cruise_id}_dive_id[i]/Sealog/dive_id[i]_loweringRecord.json.gz to /data/mgds/field/{vessel_id}/{cruise_id}/Subastian/{cruise_id}_dive_id/Sealog
+	PRINT /scratch/mgds/work/Falkor/{cruise_id}/Subastian/{cruise_id}_dive_id[i]/Sealog/dive_id[i]_loweringRecord.json.gz copied to /data/mgds/field/{vessel_id}/{cruise_id}/Subastian/{cruise_id}_dive_id/Sealog
+	DELETE /scratch/mgds/work/Falkor/{cruise_id}/Subastian/{cruise_id}_dive_id[i]/Sealog/dive_id[i]_loweringRecord.json
+DONE
+
