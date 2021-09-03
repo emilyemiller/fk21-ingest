@@ -2,16 +2,36 @@
 
 #Submersible Sealog/SealogLaunch event metadata
 
-cruise_id = FK210409 # will want to be able to supply this as a flag
-dive_id = []
-#store the dive_id so we can search for the paths to the data
+cruise_id = FK210409 #this will probs be set as a flag when running the script
+cwd = current path in /scratch
+dive_id = [] #store dive_id so we can search for the path to the data
+
 for i in range(len(os.listdir())):
-    dive = os.listdir()[i].split('_')
-    dive_ids.append(dive[1])
-    search for 'gs://2021fkdata/'+cruise_id+'/Subastian/'+cruise_id+'_'+dive_id[i]+'/Sealog/'+dive_id[i]+'_loweringRecord.json'
-      if it exists print('dive lowering records exist in /path..."
-      pull files to '/scratch/mgds/work/Falkor/'+cruise_id+'/Subastian/'+cruise_id+'_'+dive_id[i]+'/Sealog'
-      print(dive_id[i]+'_loweringRecord.json copied to /scratch/mgds'
-      else print('dive lowering records do not exist in /path...')
-     done
+	dive = os.listdir()[i].split('_')
+	dive_ids.append(dive[1])
+	if os.dir('gs://2021fkdata/'+cruise_id+'/Subastian/'+cruise_id+'_'+dive_id[i]+'/Sealog/'+dive_id[i]+''_loweringRecord.json') == TRUE
+		print('dive lowering records exist in /path...')
+		pull files to cwd #gsutil rsync -r gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/S0*_loweringRecord.json
+		#blob.download_to_filename(destination_file_name)
+		#filepath in google cloud will match filepath on seafloor-ph
+		#everything after gs://2021fkdata/... & /scratch/mgds/work/Falkor/... 
+		print(dive_id[i]+'loweringRecord.json copied to /scratch/mgds')
+	else print('dive lowering records do not exist')
+	done
 done
+
+##################################################
+
+from google.cloud import storage
+
+#Initialise a client
+storage_client = storage.Client("[Your project here]")
+		#Create a bucket object for our bucket
+ 		#bucket = storage_client.get_bucket(bucket_name)
+		 #Create a blob object from the filepath
+ 		blob = bucket.blob("folder_one/folder_two/filename.extension")
+ #Download the file to a destination...wondering if I'll only have to 'blob.download_to_filename(local)?
+ blob.download_to_filename(destination_file_name)
+ 
+ 
+ #be aware: filepath is the path from after the bucket name i.e.) base for all further searching gs://2021fkdata/FK210409/Subastian/FK210409_dive_id[i]/
