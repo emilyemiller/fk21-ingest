@@ -1,0 +1,63 @@
+google rsync command
+
+INPUTS
+entry_id
+vessel_id
+platform_id
+data_type
+
+#####SEALOG#######
+Sealog lowering Record
+diverecord = {Sealog/S0*_loweringRecord.json}
+vessel_id = Falkor
+entry_id = FK210409
+platform_id = Subastian
+gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/S0*_loweringRecord.json
+gs://2021fkdata/{entry_id}/{platform_id}/{entry_id}_S0*/{diverecord}
+
+
+PDF
+Reports = {Sealog/Reports/*pdf}
+vessel_id = Falkor
+entry_id = FK210409
+#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/Reports/*pdf #to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog/Reports
+gs://2021fkdata/{entry_id}/{platform_id}/{entry_id}_S0*/{Reports}
+
+KMLS
+kml = {/Sealog/*kml}
+vessel_id = Falkor
+entry_id = FK210409
+#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/*kml #to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog
+gs://2021fkdata/{entry_id}/{platform_id}/{entry_id}_S0*/{kml}
+
+#eventlog
+eventlog = {/Sealog/S0*_sealogExport.csv}
+vessel_id = Falkor
+entry_id = FK210409
+from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/S0*_sealogExport.csv #to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog
+gs://2021fkdata/{entry_id}/{platform_id}/{entry_id}_S0*/{eventlog}
+
+#######SCSData########
+
+Science Sensor
+pH= {SCSData/SCIENCE_SENSOR/*}
+vessel_id = Falkor
+entry_id = FK210409
+#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/SCSData/SCIENCE_SENSOR/* #to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/SCSData/SCIENCE_SENSOR
+gs://2021fkdata/{entry_id}/{platform_id}/{entry_id}_S0*/{pH}
+
+SCS
+SCS= {SCSData/SUBASTIAN/*}
+vessel_id = Falkor
+entry_id = FK210409	
+#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTIAN/* #to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTIAN
+gs://2021fkdata/{entry_id}/{platform_id}/{entry_id}_S0*/{SCS}
+
+PilotChoiceGGA
+GGA= {SCSData/SUBASTIAN/*PilotChoice-GGA-RAW*}
+vessel_id = Falkor
+entry_id = FK210409
+#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTIAN/*PilotChoice-GGA-RAW* 
+#to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTIAN
+gs://2021fkdata/{entry_id}/{platform_id}/{entry_id}_S0*/{GGA}
+ 
