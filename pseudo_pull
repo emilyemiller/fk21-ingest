@@ -48,7 +48,7 @@ gsutil rsync -rn gs://2021fkdata/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTI
 	#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/*kml
 	#to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog
 #dry-run
-#gsutil rsync -rn gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog >& FK210409_kml_rsync.log & 
+#gsutil rsync -rn gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/(*kml) /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog >& FK210409_kml_rsync.log & 
 # gsutil rsync does not have an include option which makes these granular pulls quite complicated
 
 
@@ -60,5 +60,9 @@ gsutil rsync -rn gs://2021fkdata/FK210409/Subastian/FK210409_S0*/SCSData/SCIENCE
 
 
 #eventlog
-from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/S0*_sealogExport.csv 
-to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog
+	#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/S0*_sealogExport.csv 
+	#to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog
+#dry-run
+#gsutil rsync -rn gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/(S0*_sealogExport.csv) /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog >& FK210409_evenlog_rsync.log & 
+# gsutil rsync does not have an include option which makes these granular pulls quite complicated
+
