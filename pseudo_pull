@@ -20,18 +20,45 @@ for i in range(len(os.listdir())):
 	done
 done
 
-##################################################
+##########################################################
 
-from google.cloud import storage
+#granular rsync commands FK210409
 
-#Initialise a client
-storage_client = storage.Client("[Your project here]")
-		#Create a bucket object for our bucket
- 		#bucket = storage_client.get_bucket(bucket_name)
-		 #Create a blob object from the filepath
- 		blob = bucket.blob("folder_one/folder_two/filename.extension")
- #Download the file to a destination...wondering if I'll only have to 'blob.download_to_filename(local)?
- blob.download_to_filename(destination_file_name)
- 
- 
- #be aware: filepath is the path from after the bucket name i.e.) base for all further searching gs://2021fkdata/FK210409/Subastian/FK210409_dive_id[i]/
+#pdfs
+	#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/Reports/*pdf
+	#to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog/Reports
+#dry-run
+gsutil rsync -rn gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/Reports /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog/Reports >& FK210409_pdf_rsync.log &
+
+
+#PilotChoiceGGA
+	#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTIAN/*PilotChoice-GGA-RAW*
+	#to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTIAN
+#dry-run (for this file it makes sense to search for it separately but doesn't make sense to rsync it without the other files in .../SCSData/SUBASTIAN)
+gsutil rsync -rn gs://2021fkdata/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTIAN /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTIAN >& FK210409_scs_rsync.log &
+
+
+#SCS
+	#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTIAN/*
+	#to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/SCSData/SUBASTIAN
+#see PilotChoiceGGA above (combined rsync)
+
+
+#kmls
+	#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/*kml
+	#to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog
+#dry-run
+#gsutil rsync -rn gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog >& FK210409_kml_rsync.log & 
+# gsutil rsync does not have an include option which makes these granular pulls quite complicated
+
+
+#sci sens
+	#from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/SCSData/SCIENCE_SENSOR/*
+	#to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/SCSData/SCIENCE_SENSOR
+#dry-run
+gsutil rsync -rn gs://2021fkdata/FK210409/Subastian/FK210409_S0*/SCSData/SCIENCE_SENSOR /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/SCSData/SCIENCE_SENSOR >& FK210409_scisens_rsync.log &
+
+
+#eventlog
+from gs://2021fkdata/FK210409/Subastian/FK210409_S0*/Sealog/S0*_sealogExport.csv 
+to /scratch/mgds/work/Falkor/FK210409/Subastian/FK210409_S0*/Sealog
