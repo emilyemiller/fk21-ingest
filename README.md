@@ -1,2 +1,2 @@
 # fk21-ingest
-Pseudo code for MGDS Falkor ingestion
+various code for MGDS Falkor ingestion
